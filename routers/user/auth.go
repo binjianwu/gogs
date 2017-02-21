@@ -6,6 +6,7 @@ package user
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"github.com/go-macaron/captcha"
@@ -17,6 +18,7 @@ import (
 	"github.com/gogits/gogs/modules/context"
 	"github.com/gogits/gogs/modules/mailer"
 	"github.com/gogits/gogs/modules/setting"
+	"github.com/gogits/gogs/routers/cas"
 )
 
 const (
@@ -73,7 +75,7 @@ func isValidRedirect(url string) bool {
 	return len(url) >= 2 && url[0] == '/' && url[1] != '/'
 }
 
-func SignIn(ctx *context.Context) {
+/*func SignIn(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("sign_in")
 
 	// Check auto-login.
@@ -101,6 +103,11 @@ func SignIn(ctx *context.Context) {
 	}
 
 	ctx.HTML(200, SIGNIN)
+}*/
+
+func SignIn(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
+	ctx.Data["Title"] = ctx.Tr("sign_in")
+	cas.CasLogin(ctx, w, r)
 }
 
 func SignInPost(ctx *context.Context, form auth.SignInForm) {
@@ -143,7 +150,7 @@ func SignInPost(ctx *context.Context, form auth.SignInForm) {
 	ctx.Redirect(setting.AppSubUrl + "/")
 }
 
-func SignOut(ctx *context.Context) {
+/*func SignOut(ctx *context.Context) {
 	ctx.Session.Delete("uid")
 	ctx.Session.Delete("uname")
 	ctx.Session.Delete("socialId")
@@ -153,6 +160,18 @@ func SignOut(ctx *context.Context) {
 	ctx.SetCookie(setting.CookieRememberName, "", -1, setting.AppSubUrl)
 	ctx.SetCookie(setting.CSRFCookieName, "", -1, setting.AppSubUrl)
 	ctx.Redirect(setting.AppSubUrl + "/")
+}*/
+
+func SignOut(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
+	ctx.Session.Delete("uid")
+	ctx.Session.Delete("uname")
+	ctx.Session.Delete("socialId")
+	ctx.Session.Delete("socialName")
+	ctx.Session.Delete("socialEmail")
+	ctx.SetCookie(setting.CookieUserName, "", -1, setting.AppSubUrl)
+	ctx.SetCookie(setting.CookieRememberName, "", -1, setting.AppSubUrl)
+	ctx.SetCookie(setting.CSRFCookieName, "", -1, setting.AppSubUrl)
+	cas.CasLogout(ctx, w, r)
 }
 
 func SignUp(ctx *context.Context) {

@@ -525,6 +525,12 @@
 			"revisionTime": "2015-09-24T05:17:56Z"
 		},
 		{
+			"checksumSHA1": "+9arlU2JA7tTj5SytPCZRMq4TIc=",
+			"path": "gopkg.in/cas.v1",
+			"revision": "ead83a6dc56a8187c712efe8c5e85c505dfad6cb",
+			"revisionTime": "2017-02-10T07:51:26Z"
+		},
+		{
 			"checksumSHA1": "TlOZMrb/wY8vsDIGkXlmxsbDLP0=",
 			"path": "gopkg.in/clog.v1",
 			"revision": "bf4bf4a49c663cd0963f8775a4b60d30a75098d1",
@@ -565,6 +571,12 @@
 			"path": "gopkg.in/redis.v2",
 			"revision": "e6179049628164864e6e84e973cfb56335748dea",
 			"revisionTime": "2014-12-09T11:07:59Z"
+		},
+		{
+			"checksumSHA1": "0KwOlQV1dNUh9X8t+5s7nX5bqfk=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "a3f3340b5840cee44f372bddb5880fcbc419b46a",
+			"revisionTime": "2017-02-08T14:18:51Z"
 		}
 	],
 	"rootPath": "github.com/gogits/gogs"

@@ -34,6 +34,7 @@ const (
 	LOGIN_SMTP             // 3
 	LOGIN_PAM              // 4
 	LOGIN_DLDAP            // 5
+	LOGIN_CAS              // 6
 )
 
 var LoginNames = map[LoginType]string{
@@ -526,6 +527,9 @@ func UserSignIn(username, password string) (*User, error) {
 			}
 
 			return nil, ErrUserNotExist{user.ID, user.Name}
+
+		case LOGIN_CAS:
+			return user, err
 
 		default:
 			var source LoginSource
