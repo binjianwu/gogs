@@ -34,7 +34,6 @@ const (
 	LOGIN_SMTP             // 3
 	LOGIN_PAM              // 4
 	LOGIN_DLDAP            // 5
-	LOGIN_CAS              // 6
 )
 
 var LoginNames = map[LoginType]string{
@@ -528,9 +527,6 @@ func UserSignIn(username, password string) (*User, error) {
 
 			return nil, ErrUserNotExist{user.ID, user.Name}
 
-		case LOGIN_CAS:
-			return user, err
-
 		default:
 			var source LoginSource
 			hasSource, err := x.Id(user.LoginSource).Get(&source)
@@ -559,4 +555,21 @@ func UserSignIn(username, password string) (*User, error) {
 	}
 
 	return nil, ErrUserNotExist{user.ID, user.Name}
+}
+
+//UserSignIn validates user name
+func UserSignInViaCas(username string) (*User, error) {
+	var user *User
+	if strings.Contains(username, "@") {
+		user = &User{Email: strings.ToLower(username)}
+	} else {
+		user = &User{LowerName: strings.ToLower(username)}
+	}
+
+	hasUser, err := x.Get(user)
+
+	if hasUser {
+		return user, err
+	}
+	return nil, err
 }

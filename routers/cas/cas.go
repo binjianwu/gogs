@@ -35,7 +35,7 @@ func CasLogin(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 			Email:     username + "@hand-china.com",
 			Passwd:    "handhand",
 			IsActive:  true,
-			LoginType: models.LOGIN_CAS,
+			LoginType: models.LOGIN_NOTYPE,
 		}
 		//create new user
 		if err := models.CreateUser(user); err != nil {
@@ -98,7 +98,7 @@ func CasLogout(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 
 //gogs cas user sign ,only use username
 func SignIn(ctx *context.Context, username string) bool {
-	u, err := models.UserSignIn(username, "")
+	u, err := models.UserSignInViaCas(username)
 	if err != nil {
 		log.Println("user sign error")
 		return false

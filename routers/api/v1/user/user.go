@@ -10,6 +10,8 @@ import (
 	api "github.com/gogits/go-gogs-client"
 
 	"github.com/gogits/gogs/models"
+	"github.com/gogits/gogs/modules/auth"
+	"github.com/gogits/gogs/modules/base"
 	"github.com/gogits/gogs/modules/context"
 )
 
@@ -71,4 +73,18 @@ func GetInfo(ctx *context.APIContext) {
 
 func GetAuthenticatedUser(ctx *context.APIContext) {
 	ctx.JSON(200, ctx.User.APIFormat())
+}
+
+//create access token by username and password
+func CreateBaseTokens(ctx *context.APIContext, form auth.SignInForm) {
+	_, err := models.UserSignIn(form.UserName, form.Password)
+	if err != nil {
+		ctx.JSON(401, "error:Invalid username or password")
+		return
+	}
+	var t struct{ Authorization string }
+	v := base.BasicAuthEncode(form.UserName, form.Password)
+	t.Authorization = "Basic " + v
+	ctx.JSON(201, t)
+
 }

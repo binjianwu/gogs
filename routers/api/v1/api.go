@@ -203,6 +203,9 @@ func RegisterRoutes(m *macaron.Macaron) {
 			})
 		}, reqToken())
 
+		//user
+		m.Post("/user/token", bind(auth.SignInForm{}), user.CreateBaseTokens)
+
 		m.Group("/user", func() {
 			m.Get("", user.GetAuthenticatedUser)
 			m.Combo("/emails").Get(user.ListEmails).
