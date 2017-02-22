@@ -14,11 +14,11 @@ import (
 
 	"github.com/gogits/gogs/models"
 	"github.com/gogits/gogs/modules/auth"
+	"github.com/gogits/gogs/modules/auth/cas"
 	"github.com/gogits/gogs/modules/base"
 	"github.com/gogits/gogs/modules/context"
 	"github.com/gogits/gogs/modules/mailer"
 	"github.com/gogits/gogs/modules/setting"
-	"github.com/gogits/gogs/routers/cas"
 )
 
 const (
