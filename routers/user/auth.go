@@ -19,6 +19,7 @@ import (
 	"github.com/gogits/gogs/modules/context"
 	"github.com/gogits/gogs/modules/mailer"
 	"github.com/gogits/gogs/modules/setting"
+	"github.com/gogits/gogs/routers/oauth"
 )
 
 const (
@@ -110,6 +111,13 @@ func SignIn(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
 	cas.CasLogin(ctx, w, r)
 }
 
+func LoginViaGithubOauth2(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
+	oauth.HandleGitHubLogin(w, r)
+}
+
+func SignUpViaGithubOauth2(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
+	oauth.HandleGitHubCallback(ctx, w, r)
+}
 func SignInPost(ctx *context.Context, form auth.SignInForm) {
 	ctx.Data["Title"] = ctx.Tr("sign_in")
 
