@@ -227,6 +227,10 @@ func runWeb(ctx *cli.Context) error {
 		m.Get("/login", user.SignIn)
 		m.Post("/login", bindIgnErr(auth.SignInForm{}), user.SignInPost)
 		m.Get("/sign_up", user.SignUp)
+		m.Group("/oauth2", func() {
+			m.Get("/login", user.LoginViaOauth2)
+			m.Get("/github", user.SignUpViaGithubOauth2)
+		})
 		m.Post("/sign_up", bindIgnErr(auth.RegisterForm{}), user.SignUpPost)
 		m.Get("/reset_password", user.ResetPasswd)
 		m.Post("/reset_password", user.ResetPasswdPost)

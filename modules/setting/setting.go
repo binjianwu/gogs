@@ -762,8 +762,22 @@ type Mailer struct {
 	EnableHTMLAlternative bool
 }
 
+type OauthInfo struct {
+	ClientId, ClientSecret string
+	Scopes                 []string
+	AuthUrl, TokenUrl      string
+}
+
+// Oauther represents oauth service.
+type Oauther struct {
+	GitHub, Google, Tencent,
+	Twitter, Weibo bool
+	OauthInfos map[string]*OauthInfo
+}
+
 var (
-	MailService *Mailer
+	MailService  *Mailer
+	OauthService *Oauther
 )
 
 func newMailService() {

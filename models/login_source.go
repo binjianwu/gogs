@@ -556,3 +556,20 @@ func UserSignIn(username, password string) (*User, error) {
 
 	return nil, ErrUserNotExist{user.ID, user.Name}
 }
+
+//UserSignIn validates user name
+func UserSignInViaUname(username string) (*User, error) {
+	var user *User
+	if strings.Contains(username, "@") {
+		user = &User{Email: strings.ToLower(username)}
+	} else {
+		user = &User{LowerName: strings.ToLower(username)}
+	}
+
+	hasUser, err := x.Get(user)
+
+	if hasUser {
+		return user, err
+	}
+	return nil, err
+}

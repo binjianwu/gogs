@@ -6,6 +6,7 @@ package user
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 
 	"github.com/go-macaron/captcha"
@@ -17,6 +18,7 @@ import (
 	"github.com/gogits/gogs/modules/context"
 	"github.com/gogits/gogs/modules/mailer"
 	"github.com/gogits/gogs/modules/setting"
+	"github.com/gogits/gogs/routers/user/oauth"
 )
 
 const (
@@ -76,6 +78,10 @@ func isValidRedirect(url string) bool {
 func SignIn(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("sign_in")
 
+	if setting.OauthService != nil {
+		ctx.Data["OauthEnabled"] = true
+		ctx.Data["OauthService"] = setting.OauthService
+	}
 	// Check auto-login.
 	isSucceed, err := AutoSignIn(ctx)
 	if err != nil {
@@ -101,6 +107,20 @@ func SignIn(ctx *context.Context) {
 	}
 
 	ctx.HTML(200, SIGNIN)
+}
+
+func LoginViaOauth2(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	oauthType := r.Form.Get("type")
+	if oauthType == "" {
+		ctx.HTML(404, SIGNIN)
+		return
+	}
+	oauth.HandleLogin(oauthType, w, r)
+}
+
+func SignUpViaGithubOauth2(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
+	oauth.HandleGitHubCallback(ctx, w, r)
 }
 
 func SignInPost(ctx *context.Context, form auth.SignInForm) {

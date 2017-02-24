@@ -36,6 +36,15 @@
 							<a href="{{AppSubUrl}}/user/sign_up">{{.i18n.Tr "auth.sign_up_now" | Str2html}}</a>
 						</div>
 					{{end}}
+					{{if .OauthEnabled}}
+					<div class="form-group text-center" id="social-login">
+						{{if .OauthService.GitHub}}<a href="/user/oauth2/login?type=github" class="btn btn-default"><i class="fa fa-github-square fa-2x"></i><span>GitHub</span></a>{{end}}
+						{{if .OauthService.Google}}<a href="/user/oauth2/login?type=google" class="btn btn-default"><i class="fa fa-google-plus-square fa-2x"></i><span>Google</span></a>{{end}}
+						{{if .OauthService.Twitter}}<a href="/user/oauth2/login?type=twitter" class="btn btn-default"><i class="fa fa-twitter-square fa-2x"></i><span>Twitter</span></a>{{end}}
+						{{if .OauthService.Tencent}}<a href="/user/oauth2/login?type=qq" class="btn btn-default"><i class="fa fa-linux fa-2x"></i><span>Tencent QQ</span></a>{{end}}
+						{{if .OauthService.Weibo}}<a href="/user/oauth2/login?type=weibo" class="btn btn-default"><i class="fa fa-weibo fa-2x"></i><span>Weibo</span></a>{{end}}
+					</div>
+					{{end}}
 				</div>
 			</form>
 		</div>

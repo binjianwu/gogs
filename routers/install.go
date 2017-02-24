@@ -14,6 +14,8 @@ import (
 
 	"github.com/Unknwon/com"
 	"github.com/go-xorm/xorm"
+	"github.com/gogits/gogs/modules/auth"
+	"github.com/gogits/gogs/modules/auth/oauth2"
 	log "gopkg.in/clog.v1"
 	"gopkg.in/ini.v1"
 	"gopkg.in/macaron.v1"
@@ -21,7 +23,6 @@ import (
 	"github.com/gogits/git-module"
 
 	"github.com/gogits/gogs/models"
-	"github.com/gogits/gogs/modules/auth"
 	"github.com/gogits/gogs/modules/base"
 	"github.com/gogits/gogs/modules/context"
 	"github.com/gogits/gogs/modules/cron"
@@ -49,6 +50,7 @@ func checkRunMode() {
 
 func NewServices() {
 	setting.NewServices()
+	oauth2.NewOauthService()
 	mailer.NewContext()
 }
 
