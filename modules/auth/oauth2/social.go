@@ -45,7 +45,7 @@ func NewOauthService() {
 	}
 
 	//baidu
-	if setting.Cfg.Section("oauth2.google").Key("ENABLED").MustBool() {
+	if setting.Cfg.Section("oauth2.baidu").Key("ENABLED").MustBool() {
 		setting.OauthService.Baidu = true
 		enabledOauths = append(enabledOauths, "Baidu")
 	}
