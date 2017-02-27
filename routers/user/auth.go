@@ -119,8 +119,8 @@ func LoginViaOauth2(ctx *context.Context, w http.ResponseWriter, r *http.Request
 	oauth.HandleLogin(oauthType, w, r)
 }
 
-func SignUpViaGithubOauth2(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
-	oauth.HandleGitHubCallback(ctx, w, r)
+func SignUpViaOauth2(ctx *context.Context, w http.ResponseWriter, r *http.Request) {
+	oauth.HandleCallback(ctx, w, r)
 }
 
 func SignInPost(ctx *context.Context, form auth.SignInForm) {

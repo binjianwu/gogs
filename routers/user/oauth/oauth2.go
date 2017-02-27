@@ -12,14 +12,12 @@ import (
 
 func HandleOauth2Login(conf *oauth2.Config, oauthStateString string, w http.ResponseWriter, r *http.Request) {
 	url := conf.AuthCodeURL(oauthStateString, oauth2.AccessTypeOnline)
-
-	log.Println("Redirect to github")
 	log.Println("url:" + url)
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
 //According to the authentication server return code to get AccessToken, and returns oauth2Client
-func HandleOauth2Callback(conf *oauth2.Config, oauthStateString string, w http.ResponseWriter, r *http.Request) *http.Client {
+func HandleOauth2Callback(conf *oauth2.Config, oauthStateString string, w http.ResponseWriter, r *http.Request) *oauth2.Token {
 	ct := context.Background()
 	state := r.FormValue("state")
 	//oauthStateString is for oauth2 API calls to protect against CSRF
@@ -34,6 +32,5 @@ func HandleOauth2Callback(conf *oauth2.Config, oauthStateString string, w http.R
 		log.Fatal(err)
 	}
 	fmt.Println("AccessToken:" + token.AccessToken)
-	client := conf.Client(ct, token)
-	return client
+	return token
 }

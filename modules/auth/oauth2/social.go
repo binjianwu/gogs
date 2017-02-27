@@ -7,6 +7,7 @@ import (
 )
 
 var SocialMap = make(map[string]*oauth2.Config)
+var AllOauthes = []string{"github", "baidu", "qq", "twitter", "weibo"}
 
 func NewOauthService() {
 	if !setting.Cfg.Section("oauth2").Key("ENABLED").MustBool() {
@@ -15,9 +16,8 @@ func NewOauthService() {
 	setting.OauthService = &setting.Oauther{}
 	setting.OauthService.OauthInfos = make(map[string]*setting.OauthInfo)
 
-	allOauthes := []string{"github", "google", "qq", "twitter", "weibo"}
 	// Load all OAuth config data.
-	for _, name := range allOauthes {
+	for _, name := range AllOauthes {
 		setting.OauthService.OauthInfos[name] = &setting.OauthInfo{
 			ClientId:     setting.Cfg.Section("oauth2." + name).Key("CLIENT_ID").MustString(""),
 			ClientSecret: setting.Cfg.Section("oauth2." + name).Key("CLIENT_SECRET").MustString(""),
@@ -33,6 +33,7 @@ func NewOauthService() {
 			ClientSecret: setting.OauthService.OauthInfos[name].ClientSecret,
 			Scopes:       setting.OauthService.OauthInfos[name].Scopes,
 			Endpoint:     endpoint,
+			RedirectURL:  setting.AppUrl + "user/oauth2/sign_in",
 		}
 	}
 
@@ -43,10 +44,10 @@ func NewOauthService() {
 		enabledOauths = append(enabledOauths, "GitHub")
 	}
 
-	//google
+	//baidu
 	if setting.Cfg.Section("oauth2.google").Key("ENABLED").MustBool() {
-		setting.OauthService.Google = true
-		enabledOauths = append(enabledOauths, "Google")
+		setting.OauthService.Baidu = true
+		enabledOauths = append(enabledOauths, "Baidu")
 	}
 
 	//qq

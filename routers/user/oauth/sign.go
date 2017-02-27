@@ -32,7 +32,6 @@ func HandleSignIn(ctx *context.Context, uname string) {
 	}
 	ctx.Session.Set("uid", u.ID)
 	ctx.Session.Set("uname", u.Name)
-
 	ctx.SetCookie(setting.CSRFCookieName, "", -1, setting.AppSubUrl)
 
 	if redirectTo, _ := url.QueryUnescape(ctx.GetCookie("redirect_to")); len(redirectTo) > 0 {
