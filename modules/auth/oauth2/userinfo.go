@@ -44,14 +44,13 @@ func GetGithubUser(client *http.Client) (GithubUser, error) {
 func GetBaiduUser(accessToken string) (BaiduUser, error) {
 
 	if accessToken == "" {
-		log.Println("accessToken is not allow nil")
 		return BaiduUser{}, errors.New("accessToken is not allow nil")
 	}
 	bu := BaiduUser{}
 	url := "https://openapi.baidu.com/rest/2.0/passport/users/getLoggedInUser?access_token=" + accessToken
 	err := getJson(url, &bu)
 	if err != nil {
-		return bu, err
+		return bu, errors.New("convert userinfo json to struct fail")
 	}
 	return bu, nil
 }

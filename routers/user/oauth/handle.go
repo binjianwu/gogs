@@ -38,8 +38,7 @@ func HandleCallback(ctx *context.Context, w http.ResponseWriter, r *http.Request
 	case "github":
 		c, ok := o2.SocialMap["github"]
 		if !ok {
-			log.Println("github oauth2 service not enabled")
-			ctx.Handle(404, "type", errors.New("not found oauth type"))
+			ctx.Handle(404, "oauth2", errors.New("not found github oauth type"))
 			return
 		}
 		token := HandleOauth2Callback(c, statueString, w, r)
@@ -47,7 +46,7 @@ func HandleCallback(ctx *context.Context, w http.ResponseWriter, r *http.Request
 		client := c.Client(ct2.Background(), token)
 		uj, err := o2.GetGithubUser(client)
 		if err != nil {
-			ctx.Handle(500, "github", err)
+			ctx.Handle(500, "oauth2", errors.New("get github user fail"))
 			return
 		}
 		//ctx.Session.Set("authType", "github")
@@ -55,23 +54,20 @@ func HandleCallback(ctx *context.Context, w http.ResponseWriter, r *http.Request
 	case "baidu":
 		c, ok := o2.SocialMap["baidu"]
 		if !ok {
-			log.Println("baidu oauth2 service not enabled")
-			ctx.Handle(404, "type", errors.New("baidu oauth2 service not enabled"))
+			ctx.Handle(404, "oauth2", errors.New("baidu oauth2 service not enabled"))
 			return
 		}
 		token := HandleOauth2Callback(c, statueString, w, r)
 		ctx.Session.Set("Oauth2AccessToken", token.AccessToken)
 		uj, err := o2.GetBaiduUser(token.AccessToken)
 		if err != nil {
-			ctx.Handle(500, "", err)
+			ctx.Handle(500, "oauth2", err)
 			return
 		}
-		log.Println("name:" + uj.Uname)
-		//ctx.Session.Set("authType", "baidu")
 		HandleSignIn(ctx, uj.Uname)
 	default:
 		log.Println("error oauth2 type")
-		ctx.Handle(404, "not found oauth type", nil)
+		ctx.Handle(404, "oauth2", errors.New("not found oauth type"))
 		return
 	}
 }

@@ -191,17 +191,18 @@ func SetEngine() (err error) {
 	// so use log file to instead print to stdout.
 	logPath := path.Join(setting.LogRootPath, "xorm.log")
 	os.MkdirAll(path.Dir(logPath), os.ModePerm)
+	/*
+		f, err := os.Create(logPath)
+		if err != nil {
+			return fmt.Errorf("Fail to create xorm.log: %v", err)
+		}
 
-	f, err := os.Create(logPath)
-	if err != nil {
-		return fmt.Errorf("Fail to create xorm.log: %v", err)
-	}
-
-	if setting.ProdMode {
-		x.SetLogger(xorm.NewSimpleLogger3(f, xorm.DEFAULT_LOG_PREFIX, xorm.DEFAULT_LOG_FLAG, core.LOG_WARNING))
-	} else {
-		x.SetLogger(xorm.NewSimpleLogger(f))
-	}
+			if setting.ProdMode {
+				x.SetLogger(xorm.NewSimpleLogger3(f, xorm.DEFAULT_LOG_PREFIX, xorm.DEFAULT_LOG_FLAG, core.LOG_WARNING))
+			} else {
+				x.SetLogger(xorm.NewSimpleLogger(f))
+			}
+	*/
 	x.ShowSQL(true)
 	return nil
 }

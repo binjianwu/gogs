@@ -28,6 +28,7 @@ func HandleSignIn(ctx *context.Context, uname string) {
 	u, err := models.UserSignInViaUname(uname)
 	if err != nil {
 		log.Println("user sign error")
+		ctx.Handle(500, "Oauth2", err)
 		return
 	}
 	ctx.Session.Set("uid", u.ID)

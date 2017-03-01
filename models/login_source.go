@@ -567,9 +567,11 @@ func UserSignInViaUname(username string) (*User, error) {
 	}
 
 	hasUser, err := x.Get(user)
-
-	if hasUser {
-		return user, err
+	if err != nil {
+		return nil, err
 	}
-	return nil, err
+	if hasUser {
+		return user, nil
+	}
+	return nil, ErrUserNotExist{user.ID, user.Name}
 }

@@ -12,7 +12,6 @@ import (
 
 func HandleOauth2Login(conf *oauth2.Config, oauthStateString string, w http.ResponseWriter, r *http.Request) {
 	url := conf.AuthCodeURL(oauthStateString, oauth2.AccessTypeOnline)
-	log.Println("url:" + url)
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
