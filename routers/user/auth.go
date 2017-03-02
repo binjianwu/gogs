@@ -169,6 +169,7 @@ func SignOut(ctx *context.Context) {
 	ctx.Session.Delete("socialId")
 	ctx.Session.Delete("socialName")
 	ctx.Session.Delete("socialEmail")
+	oauth.HandleRevoke(ctx)
 	ctx.SetCookie(setting.CookieUserName, "", -1, setting.AppSubUrl)
 	ctx.SetCookie(setting.CookieRememberName, "", -1, setting.AppSubUrl)
 	ctx.SetCookie(setting.CSRFCookieName, "", -1, setting.AppSubUrl)
